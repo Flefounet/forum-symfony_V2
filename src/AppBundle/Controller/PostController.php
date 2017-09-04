@@ -20,14 +20,15 @@ class PostController extends Controller
      * )
      * @return Response
      */
-    public function detailsAction($id){
+    public function detailsAction($id)
+    {
 
         $repository = $this->getDoctrine()
             ->getRepository("AppBundle:Post");
 
         $post = $repository->find($id);
 
-        if(! $post){
+        if (!$post) {
             throw new NotFoundHttpException("post introuvable");
         }
 
@@ -43,7 +44,8 @@ class PostController extends Controller
      * @param $year
      * @return Response
      */
-    public function postByYearAction($year){
+    public function postByYearAction($year)
+    {
         $postRepository = $this->getDoctrine()
             ->getRepository("AppBundle:Post");
 
@@ -52,5 +54,8 @@ class PostController extends Controller
             "postList" => $postRepository->getPostsByYear($year)
         ]);
     }
+
+
+
 
 }

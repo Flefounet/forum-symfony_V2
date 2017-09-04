@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Post;
+use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +15,7 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $repository = $this->getDoctrine()
             ->getRepository("AppBundle:Theme");
@@ -23,8 +25,28 @@ class DefaultController extends Controller
         $list = $repository->getAllThemes()->getArrayResult();
         $postListByYear = $postRepository->getPostsGroupedByYear();
 
+        //creation du formulaire
+        $post = new Post();
+        $form = $this->createForm(PostType::class, $post);
+
+       // hydratation de $post via $form
+         $form->handleRequest($request);
+
+        //form processing
+        if($form ->isSubmitted() and $form->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+
+            //redirection pour éviter de poster deux fois les données
+            return $this->redirectToRoute("homepage");
+        }
+
         return $this->render('default/index.html.twig',
-            ["themeList" => $list, "postList"=>$postListByYear]);
+            ["themeList" => $list,
+                "postList" => $postListByYear,
+                "postForm" => $form->createView()
+            ]);
     }
 
     /**
@@ -32,7 +54,8 @@ class DefaultController extends Controller
      * @param $id
      * @return Response
      */
-    public function themeAction($id){
+    public function themeAction($id)
+    {
 
         $repository = $this->getDoctrine()
             ->getRepository("AppBundle:Theme");
@@ -41,7 +64,7 @@ class DefaultController extends Controller
 
         $allThemes = $repository->getAllThemes()->getArrayResult();
 
-        if(! $theme){
+        if (!$theme) {
             throw new NotFoundHttpException("Thème introuvable");
         }
 

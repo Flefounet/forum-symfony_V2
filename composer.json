@@ -21,6 +21,7 @@
         "doctrine/doctrine-bundle": "^1.6",
         "doctrine/doctrine-cache-bundle": "^1.2",
         "doctrine/orm": "^2.5",
+        "egeloen/ckeditor-bundle": "^6.0",
         "incenteev/composer-parameter-handler": "^2.0",
         "nelmio/alice": "^2.3",
         "oro/doctrine-extensions": "^1.2",
@@ -32,6 +33,7 @@
         "symfony/swiftmailer-bundle": "^2.3.10",
         "symfony/symfony": "3.2.*",
         "twig/twig": "^1.0||^2.0"
+
     },
     "require-dev": {
         "doctrine/data-fixtures": "^1.2",

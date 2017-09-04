@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Theme;
 use AppBundle\Form\ThemeType;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,13 +35,13 @@ class AdminController extends Controller
 
 
         //hydratation
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        //form processing
-        if($form ->isSubmitted() and $form->isValid()){
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($theme);
-            $em->flush();
+            //form processing
+            if($form ->isSubmitted() and $form->isValid()){
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($theme);
+                $em->flush();
 
             //redirection pour éviter de poster deux fois les données
             return $this->redirectToRoute("admin_themes");
